@@ -1,5 +1,6 @@
 MQTT-Client-Framework 
 =====================
+基于0.7.9版本，修复mqtt client内存泄露问题
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
