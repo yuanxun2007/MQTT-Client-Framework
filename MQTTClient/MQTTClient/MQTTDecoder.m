@@ -142,8 +142,10 @@
         DDLogVerbose(@"[MQTTDecoder] NSStreamEventEndEncountered");
         
         if (self.streams) {
-            [stream setDelegate:nil];
+            //FIX: Memory Leak
             [stream close];
+            [stream removeFromRunLoop:self.runLoop forMode:self.runLoopMode];
+            [stream setDelegate:nil];
             [self.streams removeObject:stream];
             if (self.streams.count) {
                 NSInputStream *stream = [self.streams objectAtIndex:0];
@@ -159,6 +161,10 @@
         self.state = MQTTDecoderStateConnectionError;
         NSError *error = [stream streamError];
         if (self.streams) {
+            //FIX: Memory Leak
+            [stream close];
+            [stream removeFromRunLoop:self.runLoop forMode:self.runLoopMode];
+            [stream setDelegate:nil];
             [self.streams removeObject:stream];
             if (self.streams.count) {
                 NSInputStream *stream = [self.streams objectAtIndex:0];
